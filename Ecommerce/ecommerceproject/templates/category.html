@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.description|truncatewords:155}}
+    {% else %}
+        Welcome to ShopBag Online Shop
+    {% endif %}
+{% endblock %}
+{% block title %}
+    {% if category %}
+        {{ category.name }} - ShopBag Online Shop
+    {% else %}
+        See New Collections-ShopBag Online Shop
+{% endif %}
+{% endblock %}
+{% block content %}
+{% if category %}
+<div>
+    <div class="row my_row_class">
+        <div class="mx_auto">
+        <p>
+            <a href="{% url 'ecommerceapp:allProdCat'%}">Our Product Collections</a>
+        </p>
+    </div>
+        </div>
+</div>
+{% endif %}
+<div class="mx_auto">
+    {% if category %}
+    <img class="my_image" src="{{category.image.url}}" alt="{{category.name}}" width="100%" height="200px">
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title">{{category.name}}</h1>
+    <p class="text-justify">{{category.description}}</p>
+</div>
+    {% else %}
+<div>
+    <img class="my_image my_image_padding" src="{% static 'img/banner.png'%}" alt="Our Products" width="100%" height="400px">
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title">Our Product Collections</h1>
+    <p class="text-justify">Welcome to ShopBag, your ultimate destination for trendy and affordable online shopping!
+        At ShopBag, we offer a curated collection of fashion-forward clothing, accessories, and lifestyle products to suit every style and budget.
+        Explore our wide range of high-quality items, from chic apparel and statement accessories to stylish home decor and tech gadgets.
+        Our user-friendly website ensures a seamless shopping experience, and our dedicated customer support team is always ready to assist you.
+        Discover the joy of hassle-free online shopping with fast and secure delivery options.
+        ShopBag - Your go-to online shop for all things fashionable and fabulous!</p>
+</div>
+{% endif %}
+<div class="container">
+    <div class="row mx_auto">
+        {% for product in products.object_list %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-lg-4 mb-4">
+            <div class="card text-center d-flex" style="min-width:18rem; height:100%;" >
+                <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}" alt="{{product.name}}" width="200px" height="300px"></a>
+            <div class="card-body">
+            <h4>{{product.name}}</h4>
+            <p>${{product.price}}</p>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+        <hr>
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %}active{% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+</div>
+{% endblock %}
