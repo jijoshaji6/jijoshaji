@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>this is {{obj}} </h1>
+</body>
+</html>
+    path('contact/',views.contact,name="contact"),
+    path('detail/',views.detail,name="detail"),
+    path('thanks/',views.thanks,name="thanks"),
+    path('value/',views.value,name="value"),
+def contact(request):
+    return render(request,"contact.html")
+
+def detail(request):
+    return render(request,"detail.html")
+
+def thanks(request):
+    return render(request,"thanks.html")
+
+def value(request):
+    name="india"
+    return render(request,"value.html", {"obj":name})
