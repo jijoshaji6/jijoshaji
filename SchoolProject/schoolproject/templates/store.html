@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Store</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/storecss.css' %}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="align">
+
+  <div class="grid">
+
+    <form action="" method="POST" class="form login">
+    {% csrf_token %}
+        <div class="row">
+      <div >
+         <a href="{% url 'logout' %}" class="form__field">Logout</a>
+      </div>
+              <div >
+         <a href="{% url 'index' %}" class="form__field">Home</a>
+      </div>
+            </div>
+      <div class="form__field">
+        <label for="name">Name</label>
+        <input id="name" type="text" name="username" class="form__input" placeholder="Enter your Name" >
+      </div>
+      <div class="form__field">
+        <label for="dob">DOB</label>
+        <input id="dob" type="date" name="date" class="form__input" placeholder="Enter your DOB" >
+      </div>
+      <div class="form__field">
+        <label for="age">Age</label>
+        <input id="age" type="number" name="age" class="form__input" placeholder="Enter your Age" >
+      </div>
+       <div class="form__gender">
+        <p>Gender</p>
+         <label for="male">Male</label>
+        <input id="male" type="radio" name="gender" class="form__gender"  >
+         <label for="female">Female</label>
+        <input id="female" type="radio" name="gender" class="form__gender"  >
+      </div>
+      <div class="form__field">
+        <label for="phno">Phone Number</label>
+        <input id="phno" type="name" name="number" class="form__input" placeholder="Phone Number" >
+      </div>
+      <div class="form__field">
+        <label for="mail">Email</label>
+        <input id="mail" type="email" name="email" class="form__input" placeholder="Mail ID" >
+      </div>
+      <div class="form__field">
+        <label for="addr">Address</label>
+        <input id="addr" type="text" name="address" class="form__input" placeholder="Enter your Address" >
+      </div>
+      <div>
+              <div class="form__field">
+          <label >Department</label>
+                {{ form.department }}
+              </div>
+          <div class="form__field">
+          <label >Course</label>
+                {{ form.course }}
+              </div>
+           <script>
+        $(document).ready(function () {
+            $("#{{ form.department.id_for_label }}").change(function () {
+                var selectedDepartment = $(this).val();
+                $.ajax({
+                    url: "{% url 'get_course' %}",
+                    data: {'department': selectedDepartment},
+                    dataType: 'json',
+                    success: function (data) {
+                        var courseSelect = $("#{{ form.course.id_for_label }}");
+                        courseSelect.empty();
+                        courseSelect.append('<option value="">Select Course</option>');
+                        $.each(data.course, function (key, value) {
+                            courseSelect.append($('<option></option>').attr('value', key).text(value));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+      </div>
+      <div class="form__field">
+          <label for="purp">Purpose</label>
+        <select name="purp" id="purp">
+          <option >Select your Purpose</option>
+          <option value="enq" >Enquiry</option>
+          <option value="plc" >Place Order</option>
+          <option value="ret" >Return</option>
+        </select>
+      </div>
+      <div class="form__field22">
+        <label >Materials Provided</label><br><br>
+        <div class="form__field22">
+        <input id="note" type="checkbox" name="note" class="form__mat">
+        <label for="note" >Notebook</label>
+        <input id="pen" type="checkbox" name="pen" class="form__mat">
+        <label for="pen" >Pen</label>
+        <input id="pencil" type="checkbox" name="pencil" class="form__mat">
+        <label for="pencil" >Pencil</label>
+          </div><br>
+        <div class="form__field22">
+        <input id="ruler" type="checkbox" name="ruler" class="form__mat">
+        <label for="ruler" >Ruler</label>
+        <input id="eraser" type="checkbox" name="eraser" class="form__mat">
+        <label for="eraser" >Eraser</label>
+        <input id="papa4" type="checkbox" name="papa4" class="form__mat">
+        <label for="papa4" >A4 Paper</label>
+        </div><br>
+      <div class="form__field22">
+        <input id="stap" type="checkbox" name="stap" class="form__mat">
+        <label for="stap" >Stapler</label>
+        <input id="sharp" type="checkbox" name="sharp" class="form__mat">
+        <label for="sharp" >Sharpener</label>
+        <input id="fold" type="checkbox" name="fold" class="form__mat">
+        <label for="fold" >Folder</label>
+      </div><br>
+      </div>
+      <div >
+        <a href="{% url 'index' %}" class="form__field">Submit</a>
+      </div>
+
+    </form>
+  </div>
+</body>
+</html>
